@@ -19,10 +19,21 @@ public class FactoryRobotHazardAnalyzer {
         System.out.print("Enter machinery state (Worn/Faulty/Critical): ");
         String machineryState = scanner.nextLine();
 
-        System.out.println("\nInput Summary:");
-        System.out.println("Arm Precision: " + armPrecision);
-        System.out.println("Worker Density: " + workerDensity);
-        System.out.println("Machinery State: " + machineryState);
+        double machineryRiskFactor;
+
+        if (machineryState.equals("Worn")) {
+            machineryRiskFactor = 1.3;
+        } else if (machineryState.equals("Faulty")) {
+            machineryRiskFactor = 2.0;
+        } else {
+            machineryRiskFactor = 3.0; // assume valid input
+        }
+
+        double hazardRisk =
+                ((1.0 - armPrecision) * 15.0)
+                        + (workerDensity * machineryRiskFactor);
+
+        System.out.println("\nHazard Risk Score: " + hazardRisk);
 
         scanner.close();
     }
