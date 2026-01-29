@@ -11,8 +11,18 @@ public class FactoryRobotHazardAnalyzer {
         System.out.print("Enter arm precision (0.0 - 1.0): ");
         double armPrecision = scanner.nextDouble();
 
+        if (armPrecision < 0.0 || armPrecision > 1.0) {
+            System.out.println("Error: Arm precision must be 0.0-1.0");
+            return;
+        }
+
         System.out.print("Enter worker density (1 - 20): ");
         int workerDensity = scanner.nextInt();
+
+        if (workerDensity < 1 || workerDensity > 20) {
+            System.out.println("Error: Worker density must be 1-20");
+            return;
+        }
 
         scanner.nextLine(); // consume newline
 
@@ -25,8 +35,11 @@ public class FactoryRobotHazardAnalyzer {
             machineryRiskFactor = 1.3;
         } else if (machineryState.equals("Faulty")) {
             machineryRiskFactor = 2.0;
+        } else if (machineryState.equals("Critical")) {
+            machineryRiskFactor = 3.0;
         } else {
-            machineryRiskFactor = 3.0; // assume valid input
+            System.out.println("Error: Unsupported machinery state");
+            return;
         }
 
         double hazardRisk =
