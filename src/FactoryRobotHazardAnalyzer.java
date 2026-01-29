@@ -29,25 +29,40 @@ public class FactoryRobotHazardAnalyzer {
         System.out.print("Enter machinery state (Worn/Faulty/Critical): ");
         String machineryState = scanner.nextLine();
 
+        if (!machineryState.equals("Worn")
+                && !machineryState.equals("Faulty")
+                && !machineryState.equals("Critical")) {
+            System.out.println("Error: Unsupported machinery state");
+            return;
+        }
+
+        double hazardRisk = calculateHazardRisk(
+                armPrecision,
+                workerDensity,
+                machineryState
+        );
+
+        System.out.println("\nHazard Risk Score: " + hazardRisk);
+
+        scanner.close();
+    }
+
+    private static double calculateHazardRisk(
+            double armPrecision,
+            int workerDensity,
+            String machineryState
+    ) {
         double machineryRiskFactor;
 
         if (machineryState.equals("Worn")) {
             machineryRiskFactor = 1.3;
         } else if (machineryState.equals("Faulty")) {
             machineryRiskFactor = 2.0;
-        } else if (machineryState.equals("Critical")) {
-            machineryRiskFactor = 3.0;
         } else {
-            System.out.println("Error: Unsupported machinery state");
-            return;
+            machineryRiskFactor = 3.0; // Critical
         }
 
-        double hazardRisk =
-                ((1.0 - armPrecision) * 15.0)
-                        + (workerDensity * machineryRiskFactor);
-
-        System.out.println("\nHazard Risk Score: " + hazardRisk);
-
-        scanner.close();
+        return ((1.0 - armPrecision) * 15.0)
+                + (workerDensity * machineryRiskFactor);
     }
 }
